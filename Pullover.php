@@ -81,7 +81,10 @@ session_start(); ?>
 <form method="post">
     <input type="submit" name="add_to_cart" value="In den Warenkorb">
 </form>
-<br> 
+<br>
+
+
+
 <?php
 
 
@@ -108,20 +111,20 @@ if(isset($_POST['add_to_cart'])) {
 </div>
 
 <script>
-    // JavaScript-Funktion, um das nächste Bild anzuzeigen, wenn auf ein Bild geklickt wird
     function showNextImage(currentImage) {
-      // Alle Bilder in der gleichen Container-Div wie das aktuelle Bild abrufen
       var images = currentImage.parentElement.getElementsByTagName('img');
-      // Index des aktuellen Bildes in der Liste der Bilder finden
       var currentIndex = Array.from(images).indexOf(currentImage);
-      // Index des nächsten Bildes berechnen. Wenn es das letzte Bild ist, dann soll das erste Bild angezeigt werden (Schleife).
       var nextIndex = (currentIndex + 1) % images.length;
-      // Das aktuelle Bild ausblenden, indem die 'hidden'-Klasse hinzugefügt wird
+      
       images[currentIndex].classList.add('hidden');
-      // Das nächste Bild anzeigen, indem die 'hidden'-Klasse entfernt wird
       images[nextIndex].classList.remove('hidden');
+      
+      // Wenn das nächste Bild das Video ist, zeige es an
+      if(images[nextIndex].id === "productVideo") {
+        images[nextIndex].classList.remove('hidden');
+      }
     }
-  </script>
+</script>
  
  <!-- Erklärung:
 
@@ -145,7 +148,36 @@ if(isset($_POST['add_to_cart'])) {
   -->
 
 
+  <div class="mycontainer">
+  <div>
+    <img src="Produkt_Fotos/HamptonsPullover/PulloverVorne1.png" alt="PulloverVorne" class="PulloverVorne" onclick="showNextImage(this)">
+    <img src="Produkt_Fotos/HamptonsPullover/PulloverHinten1.png" alt="PulloverHinten" class="Pulloverhinten hidden" onclick="showNextImage(this)">
+    <img src="Produkt_Fotos/HamptonsPullover/PulloverNah1.png" alt="PulloverNah" class="Pullovernah hidden" onclick="showNextImage(this)">
+  </div>
+  
+  <div class="product-box" style="background-color:#ffffff;">
+    <h2>Miss Selfridge – Oversize-Sweatshirt in Weiß mit „Hamptons“-Schriftzug</h2>
+    <p><b>Preis: 60,99€</p>
+    <p>Rundhalsausschnitt <br>
+    Langärmlig <br>
+    Stickereien <br>
+    Normale Passform <br>
+</b> <form method="post">
+    <input type="submit" name="add_to_cart" value="In den Warenkorb">
+</form></div>
+</div>
 
+<div style="float: right;">
+  <video controls autoplay loop width="600">
+    <source src="Produkt_Fotos/HamptonsPullover/ProduktVideoHamptons.mp4" type="video/mp4">
+  </video>
+</div>
+
+
+    
+<!-- Formular zum Hinzufügen des Produkts zum Warenkorb -->
+
+<br>
 
 
 
@@ -160,5 +192,9 @@ if(isset($_POST['add_to_cart'])) {
   
   
     <script src="script.js"></script>
-</body>
+
+<footer>
+        <p>&copy; 2024 Emenra. All rights reserved.</p>
+    </footer>
+    </body>
 </html>
