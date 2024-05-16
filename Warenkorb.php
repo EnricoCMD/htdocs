@@ -20,9 +20,10 @@ session_start();
         </div>
     </h1>
 </section> 
-            <a href="tshirts.html">T-Shirts</a>
-            <a href="Pullover.html">Pullover</a>
-            <a href="Hosen.html">Hosen</a>
+            <a href="index.html"> Home</a> 
+            <a href="tshirts.php">T-Shirts</a>
+            <a href="Pullover.php">Pullover</a>
+            <a href="Hosen.php">Hosen</a>
         
         <style>
             #Uberschrift{

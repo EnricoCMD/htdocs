@@ -58,6 +58,8 @@ session_start(); ?>
         letter-spacing: 0,2cm;
         background-color: rgb(231, 235, 236);
     }
+</style>
+<style>
     .mycontainer {
       width:100%;
       overflow:auto;
@@ -79,85 +81,48 @@ session_start(); ?>
 </style>
 </head>
 <body>
-
-<?php
-
-// Datenbankverbindung herstellen
-$servername = "localhost"; // Hostname des Datenbankservers
-$username = "root"; // Benutzername für die Datenbankverbindung
-$password = ""; // Passwort für die Datenbankverbindung
-$database = "webshop_emenra"; // Name der Datenbank
-
-// Verbindung herstellen
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Überprüfen, ob die Verbindung erfolgreich war
-if ($conn->connect_error) {
-    die("Verbindung fehlgeschlagen: " . $conn->connect_error); // Bei Verbindungsfehlern wird eine Fehlermeldung ausgegeben und das Skript beendet
-}
-
-// SQL-Abfrage ausführen, um den Benutzernamen abzurufen
-$sql = "SELECT * FROM produkte WHERE P_Kategorie='Pullover'"; // Annahme: ID_B 1 wird verwendet, um den Benutzer abzurufen (du musst deine eigene Logik hier einsetzen)
-$result = $conn->query($sql); // Die SQL-Abfrage wird ausgeführt und das Ergebnis wird in $result gespeichert
-
-if ($result->num_rows > 0) { // Überprüfen, ob mindestens eine Zeile im Ergebnis vorhanden ist
-    // Benutzernamen ausgeben
-    while($row = $result->fetch_array()){
-      $id = $row['P_ID'];
-      $name = $row['P_Name'];
-      $preis = $row['P_Preis'];
-      $beschreibung = $row['P_Beschreibung'];
-
-      $sql = "SELECT * FROM produktbilder p JOIN bildzuordnung b ON p.id = bild_id WHERE produkt_id = $id";
-      $imgRes = $conn->query($sql);
-
-      echo '<div class="mycontainer"><div>';
-
-      if ($imgRes->num_rows > 0) {
-
-        if($imgRow = $imgRes->fetch_array()){
-        $path = $imgRow['pfad'];
-          echo "<img src='$path' alt='PulloverVorne' class='PulloverVorne' onclick='showNextImage(this)''>";
-        }
-        while($imgRow = $imgRes->fetch_array()){
-          $path = $imgRow['pfad'];
-          echo "<img src='$path' alt='PulloverVorne' class='PulloverHinten hidden' onclick='showNextImage(this)''>";
-
-        }
-      }
-      
-
-      echo "</div><div class='product-box' style='background-color:#ffffff;'>.
-      <h2>$name</h2>
-      <p><b>Preis: $preis €</p>
-      <p>$beschreibung</p>
-      <form method='post'>
-        <input type='submit' name='add_to_cart' value='In den Warenkorb'>
-      </form>
-      </div>";
+<div class="mycontainer">
+  <div>
+    <img src="Produkt_Fotos/HamptonsPullover/PulloverVorne1.png" alt="PulloverVorne" class="PulloverVorne" onclick="showNextImage(this)">
+    <img src="Produkt_Fotos/HamptonsPullover/PulloverHinten1.png" alt="PulloverHinten" class="Pulloverhinten hidden" onclick="showNextImage(this)">
+    <img src="Produkt_Fotos/HamptonsPullover/PulloverNah1.png" alt="PulloverNah" class="Pullovernah hidden" onclick="showNextImage(this)">
+  </div>
+  
+  <div class="product-box" style="background-color:#ffffff;">
+    <h2>Miss Selfridge – Oversize-Sweatshirt in Weiß mit „Hamptons“-Schriftzug</h2>
+    <p><b>Preis: 60,99€</p>
+    <p>Rundhalsausschnitt <br>
+    Langärmlig <br>
+    Stickereien <br>
+    Normale Passform <br>
+    <form method="post">
+    <input type="submit" name="add_to_cart" value="In den Warenkorb">
+</form>
+</b>
+<div>
+  <video controls autoplay loop width="600">
+    <source src="Produkt_Fotos/HamptonsPullover/ProduktVideoHamptons.mp4" type="video/mp4">
+  </video>
+</div> </div>
+</div>
+<div class="mycontainer">
+  <div>
+    <img src="Produkt_Fotos/BlumePullover/pulloverblumevorne.png" alt="PulloverVorne" class="PulloverVorne" onclick="showNextImage(this)">
+    <img src="Produkt_Fotos/BlumePullover/pulloverblumehinten.png" alt="PulloverHinten" class="Pulloverhinten hidden" onclick="showNextImage(this)">
+    <img src="Produkt_Fotos/BlumePullover/pulloverblumenah.png" alt="PulloverNah" class="Pullovernah hidden" onclick="showNextImage(this)">
+  </div>
+  
+  <div class="product-box" style="background-color:#ffffff;">
+    <h2>Pullover mit Blumenmuster</h2>
+    <p><b>Preis: 35,99€</p>
+    <p>Schöner Pullover mit Blumenmuster <br> bequemer Schnitt <br>100% Baumwolle <br> </b>
+<!-- Formular zum Hinzufügen des Produkts zum Warenkorb -->
+<form method="post">
+    <input type="submit" name="add_to_cart" value="In den Warenkorb">
+</form>
+<br>
 
 
-      $sql = "SELECT * FROM produktvideos p JOIN videozuordnung b ON p.id = video_id WHERE produkt_id = $id";
-      $videoRes = $conn->query($sql);
-      if ($videoRes->num_rows > 0) {
-        if($videoRow = $videoRes->fetch_array()){
-          $videoPfad = $videoRow['pfad'];
-
-        }
-      }
-
-      echo "<div>
-      <video controls autoplay loop width='600'>
-        <source src='$videoPfad' type='video/mp4'>
-      </video>
-      </div>";
-
-      echo "</div>";
-    } 
-  }
-
-
-?>
 
 <?php
 
@@ -223,13 +188,6 @@ if(isset($_POST['add_to_cart'])) {
 
 
  
-
-
-
-
-
-
-
 
 
 
