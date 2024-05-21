@@ -17,12 +17,24 @@ session_start(); ?>
             <img src="Icons\male-icon.png" alt="Icon 2" class="icon person">
         </div>
     </h1>
-    <section id="links">
-    <a href="index.html"> Home</a> 
+</section> 
+        
+        
+        <style>
+            #Uberschrift{
+                text-align: center;
+                font-size: 1cm;
+                color: rgb(0, 0, 0);
+                letter-spacing: 0,2cm;
+                background-color: rgb(186, 220, 236);
+            }
+        </style>
 
-        <a href="tshirts.php">T-Shirts</a>
-                <a href="Pullover.php">Pullover</a>
-             
+<section id="links">
+     <a href="index.html"> Home</a> 
+<a href="tshirts.php">T-Shirts</a>
+               
+                <a href="Hosen.php">Hosen</a>
        </section>
 </section> 
 <style>
@@ -32,31 +44,20 @@ session_start(); ?>
             
         }
        </style>
-        
-        <style>                            
-            #Uberschrift{
-                text-align: center;
-                font-size: 1cm;
-                color: rgb(0, 0, 0);
-                letter-spacing: 0,2cm;
-                background-color: rgb(186, 220, 236);
-            }
-        </style>
-   <section id="T-Shirts">  <h1>Hosen</h1></section>
+
+   <section id="Pullover">  <h1>Hosen</h1></section>
    
   
   
   
    <style>
-    #T-Shirts{
+    #Pullover{
         text-align: center;
         font-size: 1cm;
         color: rgb(0, 0, 0);
         letter-spacing: 0,2cm;
         background-color: rgb(231, 235, 236);
     }
-</style>
-<style>
     .mycontainer {
       width:100%;
       overflow:auto;
@@ -79,36 +80,84 @@ session_start(); ?>
 </head>
 <body>
 
-<div class="mycontainer">
-  <div>
-    <img src="Produkt_Fotos/hosedame1/Screenshot 2024-05-16 at 12-14-00 Stradivarius – Schlupfhose in naturfarbener Leinenoptik ASOS.png" alt="PulloverVorne" class="PulloverVorne" onclick="showNextImage(this)">
-    <img src="Produkt_Fotos/hosedame1/Screenshot 2024-05-16 at 12-14-00 Stradivarius – Schlupfhose in naturfarbener Leinenoptik ASOS.png" alt="PulloverHinten" class="PulloverHinten hidden" onclick="showNextImage(this)">
-    <img src="Produkt_Fotos/hosedame1/Screenshot 2024-05-16 at 12-14-08 Stradivarius – Schlupfhose in naturfarbener Leinenoptik ASOS.png" alt="PulloverNah" class="Pullovernah hidden" onclick="showNextImage(this)">
-  </div>
-  
-  <div class="product-box" style="background-color:#ffffff;">
-    <h2>Stradivarius – Schlupfhose in naturfarbener Leinenoptik
+<?php
 
-</h2>
-    <p><b>Preis: 22,99€</p>
-    <p>Normale Bundhöhe
+// Datenbankverbindung herstellen
+$servername = "localhost"; // Hostname des Datenbankservers
+$username = "root"; // Benutzername für die Datenbankverbindung
+$password = ""; // Passwort für die Datenbankverbindung
+$database = "webshop_emenra"; // Name der Datenbank
 
-<br> bequemer Schnitt <br>Taillenbund mit Kordelzug
-<br>Seitentaschen
-<br>
-<form method="post">
-    <input type="submit" name="add_to_cart" value="In den Warenkorb">
-</form><div    >
-  <video controls autoplay loop width="600">
-    <source src="Produkt_Fotos/hosedame1/3b51cb3f-f403-4e94-88b2-226af5d528e2.mp4" type="video/mp4">
-  </video>
-</div>
-<br> </b>
-<!-- Formular zum Hinzufügen des Produkts zum Warenkorb -->
+// Verbindung herstellen
+$conn = new mysqli($servername, $username, $password, $database);
 
-<br>
+// Überprüfen, ob die Verbindung erfolgreich war
+if ($conn->connect_error) {
+    die("Verbindung fehlgeschlagen: " . $conn->connect_error); // Bei Verbindungsfehlern wird eine Fehlermeldung ausgegeben und das Skript beendet
+}
+
+// SQL-Abfrage ausführen, um den Benutzernamen abzurufen
+$sql = "SELECT * FROM produkte WHERE P_Kategorie='Hose'"; // Annahme: ID_B 1 wird verwendet, um den Benutzer abzurufen (du musst deine eigene Logik hier einsetzen)
+$result = $conn->query($sql); // Die SQL-Abfrage wird ausgeführt und das Ergebnis wird in $result gespeichert
+
+if ($result->num_rows > 0) { // Überprüfen, ob mindestens eine Zeile im Ergebnis vorhanden ist
+    // Benutzernamen ausgeben
+    while($row = $result->fetch_array()){
+      $id = $row['P_ID'];
+      $name = $row['P_Name'];
+      $preis = $row['P_Preis'];
+      $beschreibung = $row['P_Beschreibung'];
+
+      $sql = "SELECT * FROM produktbilder p JOIN bildzuordnung b ON p.id = bild_id WHERE produkt_id = $id";
+      $imgRes = $conn->query($sql);
+
+      echo '<div class="mycontainer"><div>';
+
+      if ($imgRes->num_rows > 0) {
+
+        if($imgRow = $imgRes->fetch_array()){
+        $path = $imgRow['pfad'];
+          echo "<img src='$path' alt='PulloverVorne' class='PulloverVorne' onclick='showNextImage(this)''>";
+        }
+        while($imgRow = $imgRes->fetch_array()){
+          $path = $imgRow['pfad'];
+          echo "<img src='$path' alt='PulloverVorne' class='PulloverHinten hidden' onclick='showNextImage(this)''>";
+
+        }
+      }
+      
+
+      echo "</div><div class='product-box' style='background-color:#ffffff;'>.
+      <h2>$name</h2>
+      <p><b>Preis: $preis €</p>
+      <p>$beschreibung</p>
+      <form method='post'>
+        <input type='submit' name='add_to_cart' value='In den Warenkorb'>
+      </form>
+      </div>";
 
 
+      $sql = "SELECT * FROM produktvideos p JOIN videozuordnung b ON p.id = video_id WHERE produkt_id = $id";
+      $videoRes = $conn->query($sql);
+      if ($videoRes->num_rows > 0) {
+        if($videoRow = $videoRes->fetch_array()){
+          $videoPfad = $videoRow['pfad'];
+
+        }
+      }
+
+      echo "<div>
+      <video controls autoplay loop width='600'>
+        <source src='$videoPfad' type='video/mp4'>
+      </video>
+      </div>";
+
+      echo "</div>";
+    } 
+  }
+
+
+?>
 
 <?php
 
@@ -173,26 +222,13 @@ if(isset($_POST['add_to_cart'])) {
   -->
 
 
-  <div class="mycontainer">
-  <div>
-    <img src="Produkt_Fotos/T shirt 2 Dame/Screenshot 2024-05-16 at 12-04-23 Bershka – San Francisco – Oversize-T-Shirt in Weiß ASOS.png" alt="PulloverVorne" class="PulloverVorne" onclick="showNextImage(this)">
-    <img src="Produkt_Fotos/T shirt 2 Dame/Screenshot 2024-05-16 at 12-04-09 Bershka – San Francisco – Oversize-T-Shirt in Weiß ASOS.png" alt="PulloverHinten" class="Pulloverhinten hidden" onclick="showNextImage(this)">
-    <img src="Produkt_Fotos/T shirt 2 Dame/Screenshot 2024-05-16 at 12-04-01 Bershka – San Francisco – Oversize-T-Shirt in Weiß ASOS.png" alt="PulloverNah" class="Pullovernah hidden" onclick="showNextImage(this)">
-  </div>
-  
-  <div class="product-box" style="background-color:#ffffff;">
-    <h2>Bershka – San Francisco – Oversize-T-Shirt in Weiß</h2>
-    <p><b>Preis: 17,99€</p>
-    <p>    Zurück zu den Basics
- <br>
- grafisches Druckmuster
- <br>
- Rundhalsausschnitt <br>
-    Kurzärmlig <br>
-</b> <form method="post">
-    <input type="submit" name="add_to_cart" value="In den Warenkorb">
-</form></div>
-</div>
+ 
+
+
+
+
+
+
 
 
 
@@ -203,6 +239,15 @@ if(isset($_POST['add_to_cart'])) {
 <br>
 
 
+
+
+
+
+
+  
+  
+  
+  
   
   
     <script src="script.js"></script>
