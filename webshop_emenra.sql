@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Mai 2024 um 14:51
--- Server-Version: 10.4.27-MariaDB
--- PHP-Version: 8.2.0
+-- Erstellungszeit: 21. Mai 2024 um 18:47
+-- Server-Version: 10.4.32-MariaDB
+-- PHP-Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -126,11 +126,48 @@ INSERT INTO `produkte` (`P_ID`, `P_Name`, `P_Beschreibung`, `P_Kategorie`, `P_An
 (2, 'T-Shirt Schwarz', 'Basic T-Shirt, für jeden Style, 100% Baumwolle', 'veraltet', 'Verfügbar', 10.99, 4.5, 'S,M,L,XL'),
 (3, 'Grauer Pullover', 'Schöner grauer Pullover, bequemer Schnitt, 100% Baumwolle', 'veraltet', 'Verfügbar', 40.99, 4.6, 'S,M,L,XL'),
 (4, 'Weißes T-Shirt', 'Basic T-Shirt, für jeden Style, 100% Baumwolle', 'veraltet', 'Verfügbar', 10.99, 4.2, 'S,M,L,XL'),
-(5, 'Pullover mit Blumen Muster', 'Schicker Pullover mit Blumen, <br>Gute Passform <br> 90% Baumwolle, 10% Polyester', 'Pullover', 'Verfügbar', 35.99, 4.2, 'S,M,L,XL'),
+(5, 'Pullover mit Blumen Muster', 'Schicker Pullover mit Blumen, <br>Gute Passform <br> 90% Baumwolle, 10% Polyester', '', 'Verfügbar', 35.99, 4.2, 'S,M,L,XL'),
 (6, 'Gerade geschnittene Jogginghose in Schwarz', 'Seitenstreifen\r\nTaillenbund mit Kordelzug\r\nSeitentaschen\r\nGerader Schnitt\r\n100% Baumwolle', 'Hose', 'Vefügbar', 45.99, 5, 'S,M,L,XL'),
 (7, 'Oversize-Sweatshirt in Weiß mit „Hamptons“-Schrift', 'Kapuzenpullover & Sweatshirts von Miss Selfridge \r\n    Rundhalsausschnitt\r\n    Langärmlig\r\n    Stickereien\r\n    Normale Passform\r\n\r\n', 'Pullover', 'Verfügbar', 60.99, 4.4, 'S,M,L,XL'),
 (8, 'Miss Selfridge – Kurzärmliges Fußball-Oberteil aus', ' Wandert direkt in den Einkaufswagen<br>    V-Ausschnitt<br>Überschnittene Schultern<br>„85“-Print auf der Brust<br>Lockere Passform<br>', 'Tshirt', 'Verfügbar', 45.99, 4.4, 'S,M,L,XL'),
 (9, 'Bershka – San Francisco – Oversize-T-Shirt in Weiß', 'Zurück zu den Basics<br>grafisches Druckmuster<br>Rundhalsausschnitt<br>Kurzärmlig<br>Oversize-Passform', 'Tshirt', 'Verfügbar', 17.99, 4.3, 'S,M,L,XL');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `produktvideos`
+--
+
+CREATE TABLE `produktvideos` (
+  `id` int(11) NOT NULL,
+  `pfad` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `produktvideos`
+--
+
+INSERT INTO `produktvideos` (`id`, `pfad`) VALUES
+(1, 'Produkt_Fotos/HamptonsPullover/ProduktVideoHamptons.mp4');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `videozuordnung`
+--
+
+CREATE TABLE `videozuordnung` (
+  `id` int(11) NOT NULL,
+  `produkt_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `videozuordnung`
+--
+
+INSERT INTO `videozuordnung` (`id`, `produkt_id`, `video_id`) VALUES
+(1, 7, 1);
 
 --
 -- Indizes der exportierten Tabellen
@@ -171,6 +208,20 @@ ALTER TABLE `produkte`
   ADD PRIMARY KEY (`P_ID`);
 
 --
+-- Indizes für die Tabelle `produktvideos`
+--
+ALTER TABLE `produktvideos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `videozuordnung`
+--
+ALTER TABLE `videozuordnung`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `video_id` (`video_id`),
+  ADD KEY `produkt_id` (`produkt_id`);
+
+--
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
@@ -205,6 +256,18 @@ ALTER TABLE `produkte`
   MODIFY `P_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT für Tabelle `produktvideos`
+--
+ALTER TABLE `produktvideos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT für Tabelle `videozuordnung`
+--
+ALTER TABLE `videozuordnung`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Constraints der exportierten Tabellen
 --
 
@@ -221,6 +284,14 @@ ALTER TABLE `bestellungen`
 ALTER TABLE `bildzuordnung`
   ADD CONSTRAINT `bildzuordnung_ibfk_1` FOREIGN KEY (`bild_id`) REFERENCES `produktbilder` (`id`),
   ADD CONSTRAINT `bildzuordnung_ibfk_2` FOREIGN KEY (`produkt_id`) REFERENCES `produkte` (`P_ID`);
+
+--
+-- Constraints der Tabelle `videozuordnung`
+--
+ALTER TABLE `videozuordnung`
+  ADD CONSTRAINT `videozuordnung_ibfk_1` FOREIGN KEY (`produkt_id`) REFERENCES `produkte` (`P_ID`),
+  ADD CONSTRAINT `videozuordnung_ibfk_2` FOREIGN KEY (`video_id`) REFERENCES `produktvideos` (`id`),
+  ADD CONSTRAINT `videozuordnung_ibfk_3` FOREIGN KEY (`produkt_id`) REFERENCES `produkte` (`P_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -34,7 +34,7 @@ session_start(); ?>
      <a href="index.html"> Home</a> 
 <a href="tshirts.php">T-Shirts</a>
                
-                <a href="Hosen.php">Hosen</a>
+                <a href="pullover.php">Pullover</a>
        </section>
 </section> 
 <style>
