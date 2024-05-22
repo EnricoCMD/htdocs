@@ -1,12 +1,6 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit;
-}
-
-$B_Name = $_SESSION['user'];
+session_destroy();
 ?>
 
 <!DOCTYPE html>
@@ -49,16 +43,8 @@ $B_Name = $_SESSION['user'];
         }
        </style>
 
-   <section id="Pullover">  <h1>Dein Profil</h1></section>
-   
-   <body>
-    <h2>Willkommen, <?php echo $B_Name; ?>!</h2>
-    <p>Das ist dein Profil.</p>
-    <p><a href="logout.php" class="menu-link">Logout</a></p>
-</body>
-  
-<script src="script.js"></script>
-
-  
-</style>
-</head>
+       Erfolgreich ausgeloggt<br>
+       
+       <script src="script.js"></script>
+    </body>
+</html>

@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+
 <?php
 session_start();
 ?>
-
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -88,6 +88,6 @@ session_start();
 <footer>
         <p>&copy; 2024 Emenra. All rights reserved.</p>
     </footer>
-    
+    <script src="script.js"></script>
 </body>
 </html>
