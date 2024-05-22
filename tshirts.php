@@ -24,19 +24,17 @@ session_start(); ?>
             #Uberschrift{
                 text-align: center;
                 font-size: 1cm;
-                color: rgb(0, 0, 0);
+                color: rgb(999, 999, 999);
                 letter-spacing: 0,2cm;
-                background-color: rgb(186, 220, 236);
+                background-color: rgb(0,0,0);
             }
         </style>
 
 <section id="links">
-     <a href="index.html"> Home</a> 
-<a href="pullover.php">Pullover</a>
-               
-                <a href="Hosen.php">Hosen</a>
-       </section>
-</section> 
+            <a href="index.html" class="menu-link">Home</a>
+            <a href="Pullover.php" class="menu-link">Pullover</a>
+            <a href="Hosen.php" class="menu-link">Hosen</a>
+        </section>
 <style>
         #links{
             text-align: center;
@@ -54,9 +52,9 @@ session_start(); ?>
     #Pullover{
         text-align: center;
         font-size: 1cm;
-        color: rgb(0, 0, 0);
+        color: rgb(999, 999, 999);
         letter-spacing: 0,2cm;
-        background-color: rgb(231, 235, 236);
+        background-color: rgb(80, 80, 80);
     }
     .mycontainer {
       width:100%;
@@ -70,9 +68,9 @@ session_start(); ?>
       display: none;
     }
     .product-box {
-        background-color: #ffffff;
+        background-color: rgb(999,999,999);
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid rgb(0,0,0);
         border-radius: 5px;
         margin-bottom: 20px;
     }
@@ -101,8 +99,8 @@ $sql = "SELECT * FROM produkte WHERE P_Kategorie='Tshirt'"; // Annahme: ID_B 1 w
 $result = $conn->query($sql); // Die SQL-Abfrage wird ausgeführt und das Ergebnis wird in $result gespeichert
 
 if ($result->num_rows > 0) { // Überprüfen, ob mindestens eine Zeile im Ergebnis vorhanden ist
-    // Benutzernamen ausgeben
-    while($row = $result->fetch_array()){
+  // Benutzernamen ausgeben
+  while($row = $result->fetch_array()) {
       $id = $row['P_ID'];
       $name = $row['P_Name'];
       $preis = $row['P_Preis'];
@@ -114,47 +112,48 @@ if ($result->num_rows > 0) { // Überprüfen, ob mindestens eine Zeile im Ergebn
       echo '<div class="mycontainer"><div>';
 
       if ($imgRes->num_rows > 0) {
-
-        if($imgRow = $imgRes->fetch_array()){
-        $path = $imgRow['pfad'];
-          echo "<img src='$path' alt='PulloverVorne' class='PulloverVorne' onclick='showNextImage(this)''>";
-        }
-        while($imgRow = $imgRes->fetch_array()){
-          $path = $imgRow['pfad'];
-          echo "<img src='$path' alt='PulloverVorne' class='PulloverHinten hidden' onclick='showNextImage(this)''>";
-
-        }
+          if($imgRow = $imgRes->fetch_array()) {
+              $path = $imgRow['pfad'];
+              echo "<img src='$path' alt='PulloverVorne' class='PulloverVorne' onclick='showNextImage(this)'>";
+          }
+          while($imgRow = $imgRes->fetch_array()) {
+              $path = $imgRow['pfad'];
+              echo "<img src='$path' alt='PulloverHinten' class='PulloverHinten hidden' onclick='showNextImage(this)'>";
+          }
       }
-      
 
-      echo "</div><div class='product-box' style='background-color:#ffffff;'>.
-      <h2>$name</h2>
-      <p><b>Preis: $preis €</p>
-      <p>$beschreibung</p>
-      <form method='post'>
-        <input type='submit' name='add_to_cart' value='In den Warenkorb'>
-      </form>
+      echo "</div><div class='product-box' style='background-color:#ffffff;'>
+          <h2>$name</h2>
+          <p><b>Preis: $preis € inkl. MwSt.</b></p>
+          <p>$beschreibung</p>
+          <form method='post'>
+              <input type='submit' name='add_to_cart' value='In den Warenkorb'>
+          </form>
       </div>";
 
-
+      // SQL-Abfrage ausführen, um die Videos abzurufen
       $sql = "SELECT * FROM produktvideos p JOIN videozuordnung b ON p.id = video_id WHERE produkt_id = $id";
       $videoRes = $conn->query($sql);
-      if ($videoRes->num_rows > 0) {
-        if($videoRow = $videoRes->fetch_array()){
-          $videoPfad = $videoRow['pfad'];
+      $videoPfad = ''; // leeren String initialisieren, um immer definiert zu sein und Warnungen zu vermeiden
 
-        }
+      if ($videoRes->num_rows > 0) {
+          if($videoRow = $videoRes->fetch_array()) {
+              $videoPfad = $videoRow['pfad'];
+          }
       }
 
-      echo "<div>
-      <video controls autoplay loop width='600'>
-        <source src='$videoPfad' type='video/mp4'>
-      </video>
-      </div>";
+      if (!empty($videoPfad)) {
+          echo "<div>
+              <video controls autoplay loop width='600'>
+                  <source src='$videoPfad' type='video/mp4'>
+              </video>
+          </div>";
+      }
 
-      echo "</div>";
-    } 
+      echo "</div>"; // Schließe das .product-box div
   }
+  echo "</div>"; // Schließe das .mycontainer div, das alle Produkte umschließt
+}
 
 
 ?>

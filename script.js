@@ -1,17 +1,11 @@
 // person click event auf andere seiten
 document.querySelector('.icon.person').addEventListener('click', function() {
-    window.location.href = 'profile.html';
+    window.location.href = 'profile.php';
 });
 
 document.querySelector('.icon.cart').addEventListener('click', function() {
     window.location.href = 'Warenkorb.php';
 });
-document.querySelector('.icon.heart').addEventListener('click', function() {
-    window.location.href = 'Favoriten.html';
-});
-
-
-
 // Das Skript ändert die Farbe des Textes
 setInterval(function() {
     var werbung = document.getElementById('werbung');
@@ -33,3 +27,5 @@ document.addEventListener('DOMContentLoaded', function() {
         product.classList.add('active');
     });
 });
+
+

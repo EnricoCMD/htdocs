@@ -72,23 +72,34 @@ footer {
 
 #icons-container {
     float: right; 
-  
+    
 }
 
+
 .icon {
-    margin-left: 15x; /* Abstand  Icons */
+    margin-left: 15px; /* Abstand zwischen den Icons */
     margin-right: 15px;
     width: 40px;
     height: auto;
     cursor: pointer;
+    filter: invert(100%); /* Invertiert die Farben, um die Icons weiß zu machen */
 }
+
 .icon:nth-child(1):hover {
     filter: invert(26%) sepia(92%) saturate(6492%) hue-rotate(349deg) brightness(91%) contrast(93%);
     
 }
 
 a {
-    color: red;
+    color: rgb(0, 0, 0); /* farbe fur links*/
+    font-size: 40px;
+    border: 1px solid black; /* Umrandung mit 1px schwarzer Linie */
+    padding: 5px 10px; /* Innenabstand um den Link */
+    border-radius: 10px; /* Abrunden der Ecken um 10px */
+}
+
+.menu-link {
+    text-decoration: none; /* Entfernt das Unterstreichen */
 }
 
 
@@ -173,4 +184,5 @@ li::marker {
     font-size: 1.2em;
   }
   
+
 

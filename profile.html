@@ -4,29 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webshop Emenra</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <section id="werbung"> JETZT 50% AUF ALLES</section>
+    <script src="script.js" defer></script> <!-- defer sorgt dafür, dass das Script nach dem Laden der Seite ausgeführt wird --> 
+    <style>
+    #werbung{
+        font-size: 5ch;
+        color: rgb(255, 0, 0);
+        text-align: center;
+        font-weight: bolder;
+       background-color: rgb(0, 0, 0);
+    }    
+    </style>
+  
+    
     
     <header>
-        <h1>Emenras Kleidungsshop</h1>
-        <nav>
-            <ul>
-                <a href="index.html">Home</a>
-                <a href="tshirts.html">T-Shirts</a>
-                <a href="Pullover.html">Pullover</a>
-                <a href="Hosen.html">Hosen</a>
-                <div class="images">
-                    <img src="Icons\male-icon.png" alt="person" class="person">
-                    <img src="Icons\cart-line-icon.png" alt="cart" class="cart">
-                </div>
-            </ul>
-        </nav>
-    </header>
+        <section id="Uberschrift"><h1>Emenras Kleidungsshop
+            <div id="icons-container">
+            <img src="Icons\heart.png" alt="Icon 3" class="icon heart">
+            <img src="Icons\cart-line-icon.png" alt="Icon 1" class="icon cart">
+            <img src="Icons\male-icon.png" alt="Icon 2" class="icon person">
+            </div>
+    </h1>
+</section> 
+</header>
+        
+        
+<style>
+    #Uberschrift{
+        text-align: center;
+        font-size: 1cm;
+        color: rgb(999, 999, 999);
+        letter-spacing: 0,2cm;
+        background-color: rgb(0,0,0);
+    }
+</style>
+       
+        <h1 id="welcome-message">Willkommen, Gast</h1> <!-- Hier wird der Willkommensgruß angezeigt -->
 
-    <h1 style="text-align: center;">Dein Profil</h1>
+       <section id="links">
+            <a href="tshirts.php" class="menu-link">T-Shirts</a>
+            <a href="Pullover.php" class="menu-link">Pullover</a>
+            <a href="Hosen.php" class="menu-link">Hosen</a>
+        </section>
+        
+    
+       <style>
+        #links{
+            text-align: center;
+            font-size: 20px;
+           
+            
+        }
+       </style>
+
+    
+
+
+
 
    
     <script src="script.js"></script> 
+    
 </body>
 </html>

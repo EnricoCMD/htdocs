@@ -1,83 +1,106 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=webshop_emenra', 'root', '');
 
-$errors = array(); 
+if (isset($_SESSION['user'])) {
+    header("Location: profile.php");
+    exit;
+}
 
-if(isset($_POST['register'])) {
-    $email = $_POST['email'];
-    $passwort = $_POST['passwort'];
-    $passwort_repeat = $_POST['passwort_repeat'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $db = new mysqli('localhost', 'root', '', 'webshop_emenra');
 
-    // Validierung
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Bitte eine gültige E-Mail-Adresse eingeben';
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
     }
 
-    if(strlen($passwort) == 0) {
-        $errors[] = 'Bitte ein Passwort angeben';
+    $B_Name = $db->real_escape_string($_POST['B_Name']);
+    $B_Vorname = $db->real_escape_string($_POST['B_Vorname']);
+    $B_Geburtstag = $db->real_escape_string($_POST['B_Geburtstag']);
+    $B_Adresse = $db->real_escape_string($_POST['B_Adresse']);
+    $B_Telefonnummer = $db->real_escape_string($_POST['B_Telefonnummer']);
+    $B_Mail = $db->real_escape_string($_POST['B_Mail']);
+    $B_Passwort = sha1($_POST['B_Passwort']); // Passwort hashen
+
+    $sql = "INSERT INTO benutzer (B_Name, B_Vorname, B_Geburtstag, B_Adresse, B_Telefonnummer, B_Mail, B_Passwort) 
+            VALUES ('$B_Name', '$B_Vorname', '$B_Geburtstag', '$B_Adresse', '$B_Telefonnummer', '$B_Mail', '$B_Passwort')";
+
+    if ($db->query($sql) === TRUE) {
+        $_SESSION['user'] = $B_Name;
+        header("Location: profile.php");
+        exit;
+    } else {
+        echo "Error: " . $sql . "<br>" . $db->error;
     }
 
-    if($passwort != $passwort_repeat) {
-        $errors[] = 'Die Passwörter müssen übereinstimmen';
-    }
-
-    // Überprüfung, ob E-Mail bereits registriert ist
-    $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $result = $statement->execute(array('email' => $email));
-    $user = $statement->fetch();
-
-    if($user !== false) {
-        $errors[] = 'Diese E-Mail-Adresse ist bereits vergeben';
-    }
-
-    // Keine Fehler, Benutzer registrieren
-    if(empty($errors)) {
-        $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
-
-        $statement = $pdo->prepare("INSERT INTO users (email, passwort) VALUES (:email, :passwort)");
-        $result = $statement->execute(array('email' => $email, 'passwort' => $passwort_hash));
-
-        if($result) {
-            header("Location: login.php");
-            exit();
-        } else {
-            $errors[] = 'Beim Abspeichern ist leider ein Fehler aufgetreten';
-        }
-    }
+    $db->close();
 }
 ?>
 
-<!DOCTYPE html> 
-<html> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Registrierung</title>    
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webshop Emenra</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
- 
-<?php 
-if(!empty($errors)) {
-    echo '<ul>';
-    foreach($errors as $error) {
-        echo '<li>' . $error . '</li>';
-    }
-    echo '</ul>';
-}
-?>
- 
-<form action="register.php" method="post">
-E-Mail:<br>
-<input type="email" size="40" maxlength="250" name="email"><br><br>
- 
-Dein Passwort:<br>
-<input type="password" size="40"  maxlength="250" name="passwort"><br>
- 
-Passwort wiederholen:<br>
-<input type="password" size="40" maxlength="250" name="passwort_repeat"><br><br>
- 
-<input type="submit" value="Abschicken" name="register">
-</form>
- 
+    
+    <header>
+        <section id="Uberschrift"><h1>Emenras Kleidungsshop
+            <div id="icons-container">
+            <img src="Icons\heart.png" alt="Icon 3" class="icon heart">
+            <img src="Icons\cart-line-icon.png" alt="Icon 1" class="icon cart">
+            <img src="Icons\male-icon.png" alt="Icon 2" class="icon person">
+        </div>
+    </h1>
+</section> 
+        
+        
+<style>
+            #Uberschrift{
+                text-align: center;
+                font-size: 1cm;
+                color: rgb(999, 999, 999);
+                letter-spacing: 0,2cm;
+                background-color: rgb(0,0,0);
+            }
+        </style>
+
+</section> 
+<style>
+        #links{
+            text-align: center;
+            font-size: 20px;
+            
+        }
+       </style>
+<body>
+    <h2>Registration</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="B_Name">Name:</label><br>
+        <input type="text" id="B_Name" name="B_Name" required><br>
+        <label for="B_Vorname">Vorname:</label><br>
+        <input type="text" id="B_Vorname" name="B_Vorname" required><br>
+        <label for="B_Geburtstag">Geburtstag:</label><br>
+        <input type="date" id="B_Geburtstag" name="B_Geburtstag" required><br>
+        <label for="B_Adresse">Adresse:</label><br>
+        <input type="text" id="B_Adresse" name="B_Adresse" required><br>
+        <label for="B_Telefonnummer">Telefonnummer:</label><br>
+        <input type="tel" id="B_Telefonnummer" name="B_Telefonnummer" required><br>
+        <label for="B_Mail">Mail:</label><br>
+        <input type="email" id="B_Mail" name="B_Mail" required><br>
+        <label for="B_Passwort">Passwort:</label><br>
+        <input type="password" id="B_Passwort" name="B_Passwort" required><br><br>
+        <input type="submit" name="register" value="Register">
+    </form>
+    <p>Already have an account? <a href="login.php">Login here</a></p>
 </body>
 </html>

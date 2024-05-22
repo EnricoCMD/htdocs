@@ -1,53 +1,52 @@
-<?php 
+<?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=webshop_emenra', 'root', '');
- 
-if(isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $passwort = $_POST['passwort'];
-    
-    $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $result = $statement->execute(array('email' => $email));
-    $user = $statement->fetch();
-        
-    // Überprüfung des Passworts und ob das $user-Array einen Eintrag mit dem Schlüssel 'password' hat
-    if ($user !== false && isset($user['passwort']) && passwort_verify($password, $user['passwort'])) {
-        $_SESSION['userid'] = $user['id'];
-        header("Location: geheim.php");
-        exit();
-    } else {
-        $errorMessage = "E-Mail oder Passwort war ungültig<br>";
+
+if (isset($_SESSION['user'])) {
+    header("Location: profile.php");
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+    $db = new mysqli('localhost', 'root', '', 'webshop_emenra');
+
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
     }
-}
 
+    $B_Name = $db->real_escape_string($_POST['B_Name']);
+    $B_Passwort = sha1($_POST['B_Passwort']); // Passwort hashen
+
+    $sql = "SELECT B_Name FROM benutzer WHERE B_Name = '$B_Name' AND B_Passwort = '$B_Passwort'";
+    $result = $db->query($sql);
+
+    if ($result->num_rows == 1) {
+        $_SESSION['user'] = $B_Name;
+        header("Location: profile.php");
+        exit;
+    } else {
+        echo "Invalid username or password.";
+    }
+
+    $db->close();
+}
 ?>
 
-<!DOCTYPE html> 
-<html> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Login</title>    
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
 <body>
- 
-<a href="register.php">Noch keinen Account? Hier registrieren</a>
-
-<!-- Login Formular -->
-<form action="login.php" method="post">
-E-Mail:<br>
-<input type="email" size="40" maxlength="250" name="email"><br><br>
- 
-Dein Passwort:<br>
-<input type="password" size="40"  maxlength="250" name="password"><br>
- 
-<input type="submit" value="Abschicken" name="login">
-</form> 
-
-<?php 
-if(isset($errorMessage)) {
-    echo $errorMessage;
-}
-?>
- 
+    <h2>Login</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="B_Name">Name:</label><br>
+        <input type="text" id="B_Name" name="B_Name" required><br>
+        <label for="B_Passwort">Passwort:</label><br>
+        <input type="password" id="B_Passwort" name="B_Passwort" required><br><br>
+        <input type="submit" name="login" value="Login">
+    </form>
+    <p>Don't have an account? <a href="register.php">Register here</a></p>
 </body>
 </html>

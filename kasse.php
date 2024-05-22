@@ -37,9 +37,9 @@ session_start();
             #Uberschrift{
                 text-align: center;
                 font-size: 1cm;
-                color: rgb(0, 0, 0);
+                color: rgb(999, 999, 999);
                 letter-spacing: 0,2cm;
-                background-color: rgb(186, 220, 236);
+                background-color: rgb(0,0,0);
             }
         </style>
     </header>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webshop Emenra</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <section id="werbung"> JETZT 50% AUF ALLES</section>
@@ -27,33 +27,35 @@
             <img src="Icons\heart.png" alt="Icon 3" class="icon heart">
             <img src="Icons\cart-line-icon.png" alt="Icon 1" class="icon cart">
             <img src="Icons\male-icon.png" alt="Icon 2" class="icon person">
-        </div>
+            </div>
     </h1>
 </section> 
         
         
-        <style>
-            #Uberschrift{
-                text-align: center;
-                font-size: 1cm;
-                color: rgb(0, 0, 0);
-                letter-spacing: 0,2cm;
-                background-color: rgb(186, 220, 236);
-            }
-        </style>
+<style>
+    #Uberschrift{
+        text-align: center;
+        font-size: 1cm;
+        color: rgb(999, 999, 999);
+        letter-spacing: 0,2cm;
+        background-color: rgb(0,0,0);
+    }
+</style>
        
         <h1 id="welcome-message">Willkommen, Gast</h1> <!-- Hier wird der Willkommensgruß angezeigt -->
 
        <section id="links">
-        <a href="tshirts.php">T-Shirts</a>
-                <a href="Pullover.php">Pullover</a>
-                <a href="Hosen.php">Hosen</a>
-       </section>
+            <a href="tshirts.php" class="menu-link">T-Shirts</a>
+            <a href="Pullover.php" class="menu-link">Pullover</a>
+            <a href="Hosen.php" class="menu-link">Hosen</a>
+        </section>
+        
     
        <style>
         #links{
             text-align: center;
             font-size: 20px;
+           
             
         }
        </style>
@@ -61,30 +63,36 @@
        <main>
         <!-- Vorschau der Produkte -->
         <section id="Produkte" style="display: flex; justify-content: space-between;">
-            <section id="tshirts" class="product">
-                <h3>T-Shirts</h3>
-                <div class="overlay">
-                    <span>Mehr Produkte</span>
-                </div>
-                <img src="Produkt_Fotos\—Pngtree—black t shirt mockup hanging_13020093.png" alt="blackshirt" class="bshirt" width="400">
-            </section>
-            <section id="pullover" class="product">
+           
+            <section id="pullover" class="product" onclick="redirectToProduct('pullover.php')">
                 <h3>Pullover</h3>
                 <div class="overlay">
                     <span>Mehr Produkte</span>
                 </div>
-                <img src="Produkt_Fotos\pullovergrey.png" alt="pullovergrey" class="grpullover" width="400">
+                <img src="Produkt_Fotos\KAstigerOversize\kastigvorne.png" alt="pullovergrey" class="grpullover" width="400">
             </section>
-            <section id="hosen" class="product">
+             <section id="tshirts" class="product" onclick="redirectToProduct('tshirts.php')">
+                <h3>T-Shirts</h3>
+                <div class="overlay">
+                    <span>Mehr Produkte</span>
+                </div>
+                <img src="Produkt_Fotos\frautshirtweiss\frauvorne.png" alt="blackshirt" class="bshirt" width="400">
+            </section>
+            <section id="hosen" class="product" onclick="redirectToProduct('hosen.php')">
+                
                 <h3>Hosen</h3>
                 <div class="overlay">
                     <span>Mehr Produkte</span>
                 </div>
-                <img src="Produkt_Fotos\jeans.jpg" alt="jeans" class="jeans" width="400">
+                <img src="Produkt_Fotos\lockerehose\blauhosenah.png" alt="jeans" class="jeans" width="400">
             </section>
         </section>
     </main>
-    
+    <script>
+        function redirectToProduct(url) {
+            window.location.href = url;
+        }
+    </script>
     
     <style>#Produkte
         {
